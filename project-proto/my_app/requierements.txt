@@ -6,3 +6,9 @@ Flask-Login
 requests
 werkzeug
 python_dotenv
+unittest
+sphinx
+sphinx-rtd-theme
+marshmallow
+marshmallow-sqlalchemy
+flake8
