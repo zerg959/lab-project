@@ -1,0 +1,34 @@
+my_project/
++-- my_app/
+¦   +-- __init__.py
+¦   +-- routes/
+¦   ¦   +-- __init__.py
+¦   ¦   +-- auth.py
+¦   ¦   +-- api.py
+¦   ¦   +-- user.py
+¦   ¦   L-- admin.py
+¦   +-- models/
+¦   ¦   +-- __init__.py
+¦   ¦   +-- user.py
+¦   ¦   +-- storage.py
+¦   ¦   +-- zone.py
+¦   ¦   +-- gadget.py
+¦   ¦   L-- param.py
+¦   +-- templates/
+¦   ¦   L-- ...
+¦   +-- static/
+¦   ¦   L-- ...
+¦   +-- forms/
+¦   ¦   L-- ...
+¦   +-- services/
+¦   ¦   +-- __init__.py
+¦   ¦   +-- user_service.py
+¦   ¦   +-- storage_service.py
+¦   ¦   L-- gadget_service.py
+¦   +-- config.py
+¦   L-- app.py
++-- migrations/
+¦   L-- ...
++-- venv/
++-- manage.py
+L-- requirements.txt
