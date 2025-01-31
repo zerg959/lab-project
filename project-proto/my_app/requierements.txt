@@ -6,7 +6,7 @@ Flask-Login
 requests
 werkzeug
 python_dotenv
-unittest
+pytest
 sphinx
 sphinx-rtd-theme
 marshmallow
