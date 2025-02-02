@@ -1,0 +1,22 @@
+Flask
+SQLAlchemy
+pytest
+pytest-cov
+python-dotenv
+flake8
+requests
+Flask-Login
+marshmallow
+marshmallow-sqlalchemy
+werkzeug
+sphinx
+sphinx-rtd-theme
+Flask-Migrate
+alembic
+pytest-mock
+# Flask-Cors
+passlib
+itsdangerous
+# beautifulsoup4
+# bootstrap-icons
+pip-tools
