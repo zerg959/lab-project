@@ -26,3 +26,4 @@ class User(Base):
         if value not in [USER_ROLE_ADMIN, USER_ROLE_USER]:
             return ValueError(f"Incorrect role {value}. Use {USER_ROLE_USER} \
                               or {USER_ROLE_ADMIN}.")
+        return value
