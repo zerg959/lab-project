@@ -13,7 +13,7 @@ class User(Base):
     name = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)
     role = Column(String,
-                  CheckConstraint(f'role IN 
+                  CheckConstraint(f'role IN \
                                   ("{USER_ROLE_USER}", "{USER_ROLE_ADMIN}")'
                                   ),
                   nullable=False,
