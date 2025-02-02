@@ -32,10 +32,11 @@ def test_user_recorded_in_DB():
         email='mail@test.com'
         ).first()
     assert test_user_from_db is not None
+    assert test_user_from_db.id is not None
     assert test_user_from_db.name == 'Test user'
     assert test_user_from_db.email == 'mail@test.com'
     assert test_user_from_db.role == 'user'
-    assert test_user_from_db.id == 1
+    assert test_user_from_db.id == user.id
 
 
 def test_admin_recorded_in_DB():
@@ -54,4 +55,4 @@ def test_admin_recorded_in_DB():
     assert test_admin_from_db.name == 'Test admin'
     assert test_admin_from_db.email == 'mail@test.com'
     assert test_admin_from_db.role == 'admin'
-    assert test_admin_from_db.id == 1
+    assert test_admin_from_db.id == admin.id

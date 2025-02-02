@@ -1,5 +1,6 @@
-from sqlalchemy.orm import declarative_base, validates
+from sqlalchemy.orm import declarative_base, validates, relationship
 from sqlalchemy import (Column, Integer, String, CheckConstraint)
+
 Base = declarative_base()
 
 USER_ROLE_USER = 'user'
@@ -21,7 +22,7 @@ class User(Base):
     """
     User name: non-unique, string.
     """
-    email = Column(String, nullable=False, unique=True)
+    email = Column(String, nullable=False, unique=True, index=True)
     """
     Email: unique, string, email format.
     """
@@ -32,10 +33,15 @@ class User(Base):
                   nullable=False,
                   default=USER_ROLE_USER
                   )
+    storages = relationship("Storage", backref='user')
     """
     User role.
     Only allowed role names are allowed ('user', 'admin')
     """
+    # storages = relationship("Storage", back_populates="user")
+    # """
+    # List of storages user can manage.
+    # """
 
     @validates('role')
     def role_validtion(self, key, value):
@@ -50,6 +56,6 @@ class User(Base):
         if value is None:
             value = USER_ROLE_USER
         if value not in [USER_ROLE_ADMIN, USER_ROLE_USER]:
-            return ValueError(f"Incorrect role {value}. Use {USER_ROLE_USER} \
+            raise ValueError(f"Incorrect role {value}. Use {USER_ROLE_USER} \
                               or {USER_ROLE_ADMIN}.")
         return value

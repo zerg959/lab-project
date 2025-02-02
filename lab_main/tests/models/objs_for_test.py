@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import IntegrityError
 from lab_main.lab_app.models.users import User, Base
-from lab_main.lab_app.models.storages import Storage
+# from lab_main.lab_app.models.storages import Storage
 
 
 def db_for_tests():
