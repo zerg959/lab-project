@@ -169,3 +169,20 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Tests
+
+test/
+tests/
+spec/
+specs/
+integration-tests/
+e2e-tests/
+test_*.py
+*_test.py
+*.spec.js
+*.test.js
+coverage/
+*.xml
+*.test.config
+test_config.json
