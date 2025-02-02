@@ -1,7 +1,5 @@
-from sqlalchemy.orm import declarative_base,validates
-from sqlalchemy import (Column, Integer, String,
-                        ForeignKey, Boolean, REAL,
-                        CheckConstraint)
+from sqlalchemy.orm import declarative_base, validates
+from sqlalchemy import (Column, Integer, String, CheckConstraint)
 Base = declarative_base()
 
 USER_ROLE_USER = 'user'
