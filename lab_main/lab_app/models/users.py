@@ -49,6 +49,8 @@ class User(Base):
         :raises ValueError: If value not allowed.
         :return: Role value.
         """
+        if value is None:
+            value = USER_ROLE_USER
         if value not in [USER_ROLE_ADMIN, USER_ROLE_USER]:
             return ValueError(f"Incorrect role {value}. Use {USER_ROLE_USER} \
                               or {USER_ROLE_ADMIN}.")
