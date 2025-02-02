@@ -9,8 +9,9 @@ Flask-Login
 marshmallow
 marshmallow-sqlalchemy
 werkzeug
-sphinx
-sphinx-rtd-theme
+pdoc3
+# sphinx
+# sphinx-rtd-theme
 Flask-Migrate
 alembic
 pytest-mock
