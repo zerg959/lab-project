@@ -1,8 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from lab_main.lab_app.models.users import User, Base
-# from lab_main.lab_app.models.storages import Storage
+from faker import Faker
 
+from lab_main.lab_app.models.users import User
+from lab_main.lab_app.models.storages import Storage
+from lab_main.lab_app.models.base import Base
+
+fake = Faker()
 
 def db_for_tests():
     """
@@ -14,22 +18,36 @@ def db_for_tests():
     return Session()
 
 
-def user_for_tests():
+def user_for_tests(name=None, email=None, role=None):
     """
     Create user for tests.
     """
-    user = User(name='Test user', email='mail@test.com', role=None)
+    user = User(
+        name=name if name else fake.name(),
+        email=email if email else fake.email(),
+        role=role
+    )
     return user
 
 
-def admin_for_tests():
+def admin_for_tests(name=None, email=None):
     """
     Create admin for tests.
     """
-    admin = User(name='Test admin', email='mail@test.com', role='admin')
+    admin = User(
+        name=name if name else fake.name(),
+        email=email if email else fake.email(),
+        role='admin'
+    )
     return admin
 
 
-# def storage_for_tests():
-#     storage = Storage(user_id=user_for_tests.id, description=None)
-#     return storage
+def storage_for_tests(users=None, description=None):
+    """
+    Create storage for tests.
+    """
+    storage = Storage(
+        users=users if users is not None else [],
+        description=description if description else fake.sentence()
+    )
+    return storage

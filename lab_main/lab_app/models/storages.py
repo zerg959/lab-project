@@ -1,15 +1,8 @@
-from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import (Column, Integer, String,
-                        ForeignKey, Table)
+from sqlalchemy.orm import relationship
+from sqlalchemy import (Column, Integer, String,)
+from .associations import association_table
 from .users import User
-
-Base = declarative_base()
-
-# association_table = Table(
-#     'storage_users', Base.metadata,
-#     Column('storage_id', ForeignKey('storages.id'), primary_key=True),
-#     Column('user_id', ForeignKey('users.id'), primary_key=True)
-# )
+from .base import Base
 
 
 class Storage(Base):
@@ -24,10 +17,9 @@ class Storage(Base):
     """
     __tablename__ = 'storages'
     id = Column(Integer, primary_key=True, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
     description = Column(String, nullable=True)
-    user = relationship("User", backref='storages')
-
-    # users = relationship("User",
-    #                      secondary=association_table,
-    #                      back_populates='storages')
+    # user = relationship("User", backref='storages')
+    # user_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
+    users = relationship("User",
+                         secondary=association_table,
+                         back_populates='storages')

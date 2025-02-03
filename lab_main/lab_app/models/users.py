@@ -1,7 +1,8 @@
-from sqlalchemy.orm import declarative_base, validates, relationship
+from sqlalchemy.orm import validates, relationship
 from sqlalchemy import (Column, Integer, String, CheckConstraint)
+from .base import Base
+from .associations import association_table
 
-Base = declarative_base()
 
 USER_ROLE_USER = 'user'
 """Constant for user role"""
@@ -33,15 +34,15 @@ class User(Base):
                   nullable=False,
                   default=USER_ROLE_USER
                   )
-    storages = relationship("Storage", backref='user')
+    # storages = relationship("Storage", backref='user')
     """
     User role.
     Only allowed role names are allowed ('user', 'admin')
     """
-    # storages = relationship("Storage", back_populates="user")
-    # """
-    # List of storages user can manage.
-    # """
+    storages = relationship("Storage", secondary=association_table, back_populates="users")
+    """
+    List of storages user can manage.
+    """
 
     @validates('role')
     def role_validtion(self, key, value):

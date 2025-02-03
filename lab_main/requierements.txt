@@ -5,6 +5,7 @@ pytest-cov
 pytest-clarity
 python-dotenv
 flake8
+faker
 requests
 Flask-Login
 marshmallow

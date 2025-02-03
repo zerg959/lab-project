@@ -1,64 +1,75 @@
-from lab_main.lab_app.models.storages import Storage
+from lab_main.lab_app.models.storages import Storage, association_table
 from lab_main.lab_app.models.users import User
-from . objs_for_test import user_for_tests, db_for_tests
+from . objs_for_test import user_for_tests, db_for_tests, storage_for_tests
 
+session = db_for_tests()  # Create db session
 
 def test_storage_created():
     """
     Test if storage created in DB with params.
     """
-    user = user_for_tests()
-    storage = Storage(user_id=user.id, description='Test storage description')
-    assert storage.user_id == user.id
-    assert storage.description == 'Test storage description'
-
+    storage = storage_for_tests()
+    session.commit()
+    assert storage.description is not None
+    assert storage.users == []
 
 def test_storage_recorded_in_DB():
     """
     Test if storage recorded in DB.
     """
-    db = db_for_tests()
     user1 = user_for_tests()
-    user2 = user_for_tests()
-    user2.email = 'mail2@test.com'
-    db.add(user1)
-    db.add(user2)
-    db.commit()
-    storage = Storage(description='Test storage description')
-    storage.users.append(user1)
-    storage.users.append(user2)
-    db.add(storage)
-    db.commit()
-    test_storage_from_db = db.query(Storage).filter_by(
-        description='Test storage description'
-        ).first()
-    assert test_storage_from_db is not None
-    assert test_storage_from_db.id is not None
-    assert test_storage_from_db.description == 'Test storage description'
-    assert len(test_storage_from_db.users) == 2
-    assert user1 in test_storage_from_db.users
-    assert user2 in test_storage_from_db.users
+    storage = storage_for_tests(users=[user1])
+    session.add(user1)
+    session.add(storage)
+    session.commit()
+    storage_in_db = session.query(Storage).filter_by(id=storage.id).first()
+    assert storage_in_db is not None
+    assert storage_in_db.id is not None
+    assert storage_in_db.description is not None
+    assert user1 in storage_in_db.users
+    assert len(storage_in_db.users) == 1
+    assert user1.id == storage_in_db.users[0].id
+    
+
+
 
 def test_user_storages_recorded_in_DB():
         """
-        Test if user storages recorded in DB.
+        Test if users storages recorded in DB.
+        Test if two users can be in the same storage.
         """
-        db = db_for_tests()
-        user = user_for_tests()
-        db.add(user)
-        db.commit()
-        storage1 = Storage(description='Test storage description 1')
-        storage2 = Storage(description='Test storage description 2')
-        storage1.users.append(user)
-        storage2.users.append(user)
-        db.add(storage1)
-        db.add(storage2)
-        db.commit()
-        test_user_from_db = db.query(User).filter_by(
-             email='mail@test.com'
-            ).first()
-        assert test_user_from_db is not None
-        assert test_user_from_db.id is not None
-        assert len(test_user_from_db.storages) == 2
-        assert storage1 in test_user_from_db.storages
-        assert storage2 in test_user_from_db.storages
+        user1 = user_for_tests()
+        user2 = user_for_tests(email='my@mail.ru')
+        storage1 = storage_for_tests(users=[user1, user2])
+        storage2 = storage_for_tests(users=[user1, user2])
+        session.add_all([user1, user2, storage1, storage2])
+        session.commit()
+        storage1_from_db = session.query(Storage).filter_by(id=storage1.id).first()
+        storage2_from_db = session.query(Storage).filter_by(id=storage2.id).first()
+        assert storage1_from_db.users is not None
+        assert storage2_from_db.users is not None
+        assert len(storage1_from_db.users) == 2
+        assert len(storage2_from_db.users) == 2
+        assert user1 in storage1_from_db.users
+        assert user2 in storage1_from_db.users
+        assert user1 in storage2_from_db.users
+        assert user2 in storage2_from_db.users
+
+
+def test_user_have_two_storages_recorded_in_DB():
+        """
+        Test if users storages recorded in DB.
+        Test if two storages can be in the same user.
+        """
+        user1 = user_for_tests()
+        user2 = user_for_tests()
+        storage1 = storage_for_tests(users=[user1, user2])
+        storage2 = storage_for_tests(users=[user1, user2])
+        session.add_all([user1, user2, storage1, storage2])
+        session.commit()
+        user1_from_db = session.query(User).filter_by(id=user1.id).first()
+        assert len(user1_from_db.storages) == 2
+        assert storage1 in user1_from_db.storages
+        assert storage2 in user1_from_db.storages
+
+
