@@ -8,6 +8,7 @@ from lab_main.lab_app.models.base import Base
 
 fake = Faker()
 
+
 def db_for_tests():
     """
     Create DB for tests.

@@ -39,7 +39,9 @@ class User(Base):
     User role.
     Only allowed role names are allowed ('user', 'admin')
     """
-    storages = relationship("Storage", secondary=association_table, back_populates="users")
+    storages = relationship("Storage",
+                            secondary=association_table,
+                            back_populates="users")
     """
     List of storages user can manage.
     """
