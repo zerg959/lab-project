@@ -1,6 +1,6 @@
 from lab_main.lab_app.models.storages import Storage
 from lab_main.lab_app.models.users import User
-from . objs_for_test import user_for_tests, db_for_tests, storage_for_tests
+from . objs_for_test import user_for_tests, db_for_tests, storage_for_tests, zone_for_tests
 
 session = db_for_tests()  # Create db session
 
@@ -21,13 +21,15 @@ def test_storage_recorded_in_DB():
     """
     user1 = user_for_tests()
     storage = storage_for_tests(users=[user1])
-    session.add(user1)
-    session.add(storage)
+    session.add_all([user1, storage])
+    zone = zone_for_tests(storage)
+    session.add(zone)
     session.commit()
     storage_in_db = session.query(Storage).filter_by(id=storage.id).first()
     assert storage_in_db is not None
     assert storage_in_db.id is not None
     assert storage_in_db.description is not None
+    assert storage.zones is not None
     assert user1 in storage_in_db.users
     assert len(storage_in_db.users) == 1
     assert user1.id == storage_in_db.users[0].id

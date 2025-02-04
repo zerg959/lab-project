@@ -12,7 +12,7 @@ USER_ROLE_ADMIN = 'admin'
 
 class User(Base):
     """
-    User model for DB-table 'users'
+    User model for DB-table 'users':
     """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, nullable=False)
@@ -34,7 +34,6 @@ class User(Base):
                   nullable=False,
                   default=USER_ROLE_USER
                   )
-    # storages = relationship("Storage", backref='user')
     """
     User role.
     Only allowed role names are allowed ('user', 'admin')
@@ -45,6 +44,8 @@ class User(Base):
     """
     List of storages user can manage.
     """
+    def __repr__(self):
+        return f'User {self.id}: {self.name}'
 
     @validates('role')
     def role_validtion(self, key, value):
