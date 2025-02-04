@@ -1,6 +1,11 @@
 from lab_main.lab_app.models.storages import Storage
 from lab_main.lab_app.models.users import User
-from . objs_for_test import user_for_tests, db_for_tests, storage_for_tests, zone_for_tests
+from .objs_for_test import (
+    user_for_tests,
+    db_for_tests,
+    storage_for_tests,
+    zone_for_tests,
+)
 
 session = db_for_tests()  # Create db session
 
@@ -41,7 +46,7 @@ def test_user_storages_recorded_in_DB():
     Test if two users can be in the same storage.
     """
     user1 = user_for_tests()
-    user2 = user_for_tests(email='my@mail.ru')
+    user2 = user_for_tests(email="my@mail.ru")
     storage1 = storage_for_tests(users=[user1, user2])
     storage2 = storage_for_tests(users=[user1, user2])
     session.add_all([user1, user2, storage1, storage2])

@@ -1,6 +1,11 @@
 from lab_main.lab_app.models.storages import Storage
 from lab_main.lab_app.models.users import User
-from . objs_for_test import user_for_tests, db_for_tests, storage_for_tests, zone_for_tests
+from .objs_for_test import (
+    user_for_tests,
+    db_for_tests,
+    storage_for_tests,
+    zone_for_tests,
+)
 
 session = db_for_tests()
 zone1 = zone_for_tests()

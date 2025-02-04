@@ -1,7 +1,8 @@
 from sqlalchemy.orm import validates, relationship
-from sqlalchemy import (Column, Integer, String, CheckConstraint, ForeignKey)
+from sqlalchemy import Column, Integer, String, CheckConstraint, ForeignKey
 from .base import Base
 from .storages import Storage
+
 
 class Zone(Base):
     """
@@ -14,11 +15,12 @@ class Zone(Base):
     description (str): Zone description.
     storage: Linked Storage.
     """
+
     __tablename__ = "zones"
     id = Column(Integer, primary_key=True)
-    storage_id = Column(Integer, ForeignKey('storages.id'), nullable=True, index=True)
-    description = Column(String, default='zone')
-    storage = relationship('Storage', back_populates='zones') 
+    storage_id = Column(Integer, ForeignKey("storages.id"), nullable=True, index=True)
+    description = Column(String, default="zone")
+    storage = relationship("Storage", back_populates="zones")
 
     def __repr__(self):
-        return f'Zone {self.id}: {self.description}'
+        return f"Zone {self.id}: {self.description}"

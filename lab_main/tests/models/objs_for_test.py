@@ -29,7 +29,7 @@ def user_for_tests(name=None, email=None, role=None):
     user = User(
         name=name if name else fake.name(),
         email=email if email else fake.email(),
-        role=role
+        role=role,
     )
     return user
 
@@ -43,7 +43,7 @@ def admin_for_tests(name=None, email=None):
     admin = User(
         name=name if name else fake.name(),
         email=email if email else fake.email(),
-        role='admin'
+        role="admin",
     )
     return admin
 
@@ -54,14 +54,15 @@ def storage_for_tests(users=None, zones=None, description=None):
     :param users: Optional User object to associate with the Storage.
     :param zones: Optional Zone object to associate with the Storage.
     :param description: Description of the Storage.
-    
+
     """
     storage = Storage(
         users=users if users is not None else [],
         zones=zones if zones is not None else [],
-        description=description if description else fake.sentence()
+        description=description if description else fake.sentence(),
     )
     return storage
+
 
 def zone_for_tests(storage=None, description=None):
     """
@@ -69,8 +70,6 @@ def zone_for_tests(storage=None, description=None):
     :param storage: Optional Storage object to associate with the Zone.
     :param description: Description of the Zone.
     """
-    storage=storage,
-    zone = Zone(
-        description=description if description else fake.sentence()
-    )
+    storage = (storage,)
+    zone = Zone(description=description if description else fake.sentence())
     return zone

@@ -1,5 +1,5 @@
 from sqlalchemy import text
-from . objs_for_test import db_for_tests
+from .objs_for_test import db_for_tests
 
 
 def test_db_connection():
