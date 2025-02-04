@@ -36,5 +36,7 @@ class Storage(Base):
     Zones for different conditions added in Storage.
     """
 
+
+
     def __repr__(self):
         return f"Storage {self.id}: {self.description}"
