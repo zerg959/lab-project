@@ -17,4 +17,4 @@ class Parameter(Base):
     parameter_name = Column(String, nullable=False) # t или humidity
     current_value = Column(Float, nullable=True)
     description = Column(String, default="parameter")
-    timestamp = Column(DateTime, default=datetime.datetime.now(timezone.utc)) # Дата и время
+    timestamp = Column(DateTime, default=datetime.datetime.now(timezone.utc)) # Date and time
