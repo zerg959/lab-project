@@ -6,6 +6,8 @@ from lab_main.lab_app.models.users import User
 from lab_main.lab_app.models.storages import Storage
 from lab_main.lab_app.models.zones import Zone
 from lab_main.lab_app.models.base import Base
+from lab_main.lab_app.models.parameters import Parameter
+from lab_main.lab_app.models.devices import Device
 
 fake = Faker()
 
@@ -73,3 +75,13 @@ def zone_for_tests(storage=None, description=None):
     storage = (storage,)
     zone = Zone(description=description if description else fake.sentence())
     return zone
+
+
+def param_for_test(description=None, parameter_name='humidity'):
+    param = Parameter(description=description)
+    return param
+
+
+def sensor_for_test(description=None, parameter_name='humidity'):
+    param = Parameter(description=description)
+    return param
