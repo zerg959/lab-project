@@ -1,26 +1,19 @@
 from lab_main.lab_app.models.storages import Storage
 from lab_main.lab_app.models.users import User
-from .objs_for_test import (
-    user_for_tests,
-    db_for_tests,
-    storage_for_tests,
-    zone_for_tests,
-)
-
-session = db_for_tests()  # Create db session
 
 
-def test_storage_created():
+def test_storage_created(session, storage_for_tests):
     """
     Test if storage created in DB with params.
     """
     storage = storage_for_tests()
+    session.add(storage)
     session.commit()
     assert storage.description is not None
     assert storage.users == []
 
 
-def test_storage_recorded_in_DB():
+def test_storage_recorded_in_DB(session, user_for_tests, storage_for_tests, zone_for_tests):
     """
     Test if storage recorded in DB.
     """
@@ -40,7 +33,7 @@ def test_storage_recorded_in_DB():
     assert user1.id == storage_in_db.users[0].id
 
 
-def test_user_storages_recorded_in_DB():
+def test_user_storages_recorded_in_DB(session, user_for_tests, storage_for_tests):
     """
     Test if users storages recorded in DB.
     Test if two users can be in the same storage.
@@ -63,7 +56,7 @@ def test_user_storages_recorded_in_DB():
     assert user2 in storage2_from_db.users
 
 
-def test_user_have_two_storages_recorded_in_DB():
+def test_user_have_two_storages_recorded_in_DB(session, user_for_tests, storage_for_tests):
     """
     Test if users storages recorded in DB.
     Test if two storages can be in the same user.

@@ -7,16 +7,16 @@ from lab_main.lab_app.models.storages import Storage
 from lab_main.lab_app.models.zones import Zone
 from lab_main.lab_app.models.base import Base
 from lab_main.lab_app.models.parameters import Parameter
-from lab_main.lab_app.models.devices import Device
+from lab_main.lab_app.models.devices import Device, Sensor, Regulator
 
 fake = Faker()
 
 
-def db_for_tests():
+def db_for_tests(engine):
     """
     Create DB for tests.
     """
-    engine = create_engine("sqlite:///:memory:")
+
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     return Session()
@@ -66,22 +66,26 @@ def storage_for_tests(users=None, zones=None, description=None):
     return storage
 
 
-def zone_for_tests(storage=None, description=None):
+def zone_for_tests(storage=None, description=None, sensors=None, regulators=None):
     """
     Create zone for tests.
     :param storage: Optional Storage object to associate with the Zone.
     :param description: Description of the Zone.
     """
-    storage = (storage,)
-    zone = Zone(description=description if description else fake.sentence())
+    # storage = (storage,)
+    zone = Zone(
+        storage=storage if storage is not None else 'no linked storage',
+        description=description if description else fake.sentence(),
+        sensors = sensors if sensors is not None else [],
+        regulators = regulators if regulators is not None else [])
     return zone
 
 
-def param_for_test(description=None, parameter_name='humidity'):
-    param = Parameter(description=description)
-    return param
+def sensor_for_tests():
+    sensor = Sensor()
+    return sensor
 
 
-def sensor_for_test(description=None, parameter_name='humidity'):
-    param = Parameter(description=description)
+def param_for_tests():
+    param = Parameter()
     return param

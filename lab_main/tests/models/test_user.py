@@ -1,17 +1,7 @@
-from .objs_for_test import db_for_tests, user_for_tests, admin_for_tests
 from lab_main.lab_app.models.users import User
 
-session = db_for_tests()  # Create db session
 
-
-def test_db_created():
-    """
-    Tests if Sqlite DB created successfully.
-    """
-    assert session is not None
-
-
-def test_user_created():
+def test_user_created(session, user_for_tests):
     """
     Tests if user created correctly.
     If role is None used defaul value 'user'.
@@ -25,7 +15,7 @@ def test_user_created():
     assert user.storages == []
 
 
-def test_user_recorded_in_DB():
+def test_user_recorded_in_DB(session, user_for_tests):
     """
     Tests if user created in DB.
     """
@@ -40,7 +30,7 @@ def test_user_recorded_in_DB():
     assert len(user_from_bd.storages) == 0
 
 
-def test_admin_recorded_in_DB():
+def test_admin_recorded_in_DB(session, admin_for_tests):
     """
     Tests if user created in DB.
     """

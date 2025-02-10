@@ -2,7 +2,7 @@ from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Column, Integer, String, CheckConstraint, ForeignKey
 from .base import Base
 from .storages import Storage
-from .devices import Device
+# from .devices import Device
 
 class Zone(Base):
     """
@@ -21,7 +21,9 @@ class Zone(Base):
     storage_id = Column(Integer, ForeignKey("storages.id"), nullable=True, index=True)
     description = Column(String, default="zone")
     storage = relationship("Storage", back_populates="zones")
-    devices = relationship("Device", back_populates="zones")
+    sensors = relationship("Sensor", back_populates="zone")
+    regulators = relationship("Regulator", back_populates="zone")
+
     # internal_cur_params = 
     # internal_avg_params = 
     # external_cur_params =
