@@ -3,14 +3,9 @@ from unittest.mock import MagicMock
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from faker import Faker
-
-from lab_main.lab_app.models.users import User
-from lab_main.lab_app.models.storages import Storage
-from lab_main.lab_app.models.zones import Zone
 from lab_main.lab_app.models.base import Base
-from lab_main.lab_app.models.parameters import Parameter
-from lab_main.lab_app.models.devices import Device, Sensor, Regulator
-
+from lab_main.lab_app.models import (User, Storage, Zone,
+                                     Parameter, Sensor, Regulator)
 
 fake = Faker()
 
@@ -124,25 +119,60 @@ def admin_for_tests():
 @pytest.fixture()
 def sensor_for_tests():
     """Create sensor for tests."""
-    def _sensor_for_tests(zone=None, description=None, is_outdoor=False, is_auto_mode_on=False, device_type='sensor',):
+    def _sensor_for_tests(zone=None, description=None, is_outdoor=False,
+                          is_auto_mode_on=False, device_type='sensor',):
+        if device_type not in ['sensor', 'regulator']:
+            raise ValueError("Invalid device_type.\
+                             Must be 'sensor' or 'regulator'.")
         sensor = Sensor(
             zone=zone,
             description=description if description else fake.sentence(),
-            is_outdoor = is_outdoor,
-            is_auto_mode_on = is_auto_mode_on,
+            is_outdoor=is_outdoor,
+            is_auto_mode_on=is_auto_mode_on,
             device_type=device_type,
-            current_sensor_param = 33.0,
-            parameters = []
+            current_sensor_param=33.0,
             )
         return sensor
     return _sensor_for_tests
 
 
+@pytest.fixture()
+def regulator_for_tests():
+    """Create sensor for tests."""
+    def _regulator_for_tests(zone=None, description=None, is_outdoor=False,
+                             is_auto_mode_on=False, device_type='regulator',):
+        if device_type not in ['sensor', 'regulator']:
+            raise ValueError("Invalid device_type.\
+                             Must be 'sensor' or 'regulator'.")
+        regulator = Regulator(
+            zone=zone,
+            description=description if description else fake.sentence(),
+            is_outdoor=is_outdoor,
+            is_auto_mode_on=is_auto_mode_on,
+            device_type=device_type,
+            )
+        return regulator
+    return _regulator_for_tests
+
 
 @pytest.fixture()
 def param_for_tests():
     """Create param for tests."""
-    def _param_for_tests():
-        param = Parameter()
-        return param
+    def _param_for_tests(sensors=None, parameter_name=None,
+                         parameter_unit=None, description=None):
+        parameter = Parameter(sensors=sensors if sensors else [],
+                              parameter_name=parameter_name if
+                              parameter_name else 'no data',
+                              parameter_unit=parameter_unit if
+                              parameter_unit else 'no data',
+                              description=description if description else '',
+                              )
+        return parameter
     return _param_for_tests
+
+    # id = Column(Integer, primary_key=True)
+    # sensor_id = Column(Integer, ForeignKey("sensors.id"), nullable=True)  # Required!
+    # sensor = relationship("Sensor", back_populates="parameters")
+    # parameter_name = Column(String, nullable=False) # t или humidity
+    # current_value = Column(Float, nullable=True)
+    # description = Column(String, default="parameter")
