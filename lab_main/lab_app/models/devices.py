@@ -19,7 +19,7 @@ class Device(Base):
     # __tablename__ = "devices"
    
     id = Column(Integer, primary_key=True)
-
+    # zone_id = Column(Integer, ForeignKey("zones.id"), nulllable=True, index=True)
     """
     zone_id(int): ID of the linked Zone.
     """
@@ -79,6 +79,9 @@ class Sensor(Device):
     """
     zone_id = Column(Integer, ForeignKey('zones.id'), nullable=True)    
     zone = relationship("Zone", back_populates="sensors")
+    """
+    zone_id(int): ID of the linked Zone.
+    """
     parameters = relationship("Parameter", back_populates="sensor")
     """
     parameter: Backref for linked Parameter.

@@ -124,10 +124,19 @@ def admin_for_tests():
 @pytest.fixture()
 def sensor_for_tests():
     """Create sensor for tests."""
-    def _sensor_for_tests():
-        sensor = Sensor()
+    def _sensor_for_tests(zone=None, description=None, is_outdoor=False, is_auto_mode_on=False, device_type='sensor',):
+        sensor = Sensor(
+            zone=zone,
+            description=description if description else fake.sentence(),
+            is_outdoor = is_outdoor,
+            is_auto_mode_on = is_auto_mode_on,
+            device_type=device_type,
+            current_sensor_param = 33.0,
+            parameters = []
+            )
         return sensor
     return _sensor_for_tests
+
 
 
 @pytest.fixture()
