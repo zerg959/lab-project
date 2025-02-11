@@ -27,7 +27,10 @@ class Storage(Base):
     """
     Storage description.
     """
-    users = relationship("User", secondary=association_table, back_populates="storages")
+    users = relationship("User",
+                         secondary=association_table,
+                         back_populates="storages"
+                         )
     """
     Users who can manage Storage.
     """
@@ -35,8 +38,6 @@ class Storage(Base):
     """
     Zones for different conditions added in Storage.
     """
-
-
 
     def __repr__(self):
         return f"Storage {self.id}: {self.description}"
