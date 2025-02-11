@@ -32,9 +32,8 @@ def test_zones_added_in_storage(session, storage_for_tests, zone_for_tests):
 
 def test_zone_can_be_removed(session, storage_for_tests, zone_for_tests):
     """
-    Test if Zone object can be removed from in Storage.zones.
+    Test if Zone object can be removed from the Storage.zones.
     """
-
     zone1 = zone_for_tests()
     zone2 = zone_for_tests()
     storage1 = storage_for_tests(zones=[zone1, zone2])

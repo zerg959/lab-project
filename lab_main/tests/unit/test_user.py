@@ -4,7 +4,7 @@ from lab_main.lab_app.models.users import User
 def test_user_created(session, user_for_tests):
     """
     Tests if user created correctly.
-    If role is None used defaul value 'user'.
+    If role is None used default value 'user'.
     """
     user = user_for_tests()
     session.add(user)
@@ -32,7 +32,7 @@ def test_user_recorded_in_DB(session, user_for_tests):
 
 def test_admin_recorded_in_DB(session, admin_for_tests):
     """
-    Tests if user created in DB.
+    Tests if admincreated in DB.
     """
     admin = admin_for_tests()
     session.add(admin)

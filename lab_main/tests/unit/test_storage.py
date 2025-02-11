@@ -13,7 +13,9 @@ def test_storage_created(session, storage_for_tests):
     assert storage.users == []
 
 
-def test_storage_recorded_in_DB(session, user_for_tests, storage_for_tests, zone_for_tests):
+def test_storage_recorded_in_DB(
+    session, user_for_tests, storage_for_tests, zone_for_tests
+):
     """
     Test if storage recorded in DB.
     """
@@ -56,7 +58,9 @@ def test_user_storages_recorded_in_DB(session, user_for_tests, storage_for_tests
     assert user2 in storage2_from_db.users
 
 
-def test_user_have_two_storages_recorded_in_DB(session, user_for_tests, storage_for_tests):
+def test_user_have_two_storages_recorded_in_DB(
+    session, user_for_tests, storage_for_tests
+):
     """
     Test if users storages recorded in DB.
     Test if two storages can be in the same user.

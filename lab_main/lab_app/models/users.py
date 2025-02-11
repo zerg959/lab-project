@@ -38,14 +38,14 @@ class User(Base):
         default=USER_ROLE_USER,
     )
     """
-    User role.
-    Only allowed role names are allowed ('user', 'admin')
+    role (list): User role.
+    Only ('user', 'admin') roles names are allowed.
     """
     storages = relationship(
         "Storage", secondary=association_table, back_populates="users"
     )
     """
-    List of storages user can manage.
+    storages (list): List of storages user can manage.
     """
 
     def __repr__(self):

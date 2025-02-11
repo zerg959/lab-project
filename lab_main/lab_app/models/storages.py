@@ -23,20 +23,23 @@ class Storage(Base):
 
     __tablename__ = "storages"
     id = Column(Integer, primary_key=True, nullable=False)
+    """
+    id (int): Storage ID in DB.
+    """
     description = Column(String, nullable=True)
     """
-    Storage description.
+    description (str): Storage description.
     """
     users = relationship("User",
                          secondary=association_table,
                          back_populates="storages"
                          )
     """
-    Users who can manage Storage.
+    users (list): Users who can manage Storage.
     """
     zones = relationship("Zone", back_populates="storage")
     """
-    Zones for different conditions added in Storage.
+    zones (list): Zones for different conditions added in Storage.
     """
 
     def __repr__(self):

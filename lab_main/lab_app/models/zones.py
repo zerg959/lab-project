@@ -17,17 +17,35 @@ class Zone(Base):
 
     __tablename__ = "zones"
     id = Column(Integer, primary_key=True)
-    storage_id = Column(Integer, ForeignKey("storages.id"),
-                        nullable=True, index=True)
-    description = Column(String, default="zone")
+    """
+    id (int): zone ID in DB.
+    """
+    storage_id = Column(Integer,
+                        ForeignKey("storages.id"),
+                        nullable=True, index=True
+                        )
+    """
+    storage_id (int): storage ID where zone is created.
+    """
     storage = relationship("Storage", back_populates="zones")
+    """
+    storage (obj): Storage object linked with zone.
+    """
     devices = relationship("Device", back_populates="zone")
+    """
+    devices (list): Device siblings objects
+    (Regulator, Sensor) linked with zone.
+    """
+    description = Column(String, default="zone")
+    """
+    description (str): zone description. Default: zone.
+    """
 
-    # internal_cur_params = 
-    # internal_avg_params = 
+    # internal_cur_params =
+    # internal_avg_params =
     # external_cur_params =
-    # internal_avg_params = 
-    # min_params = 
+    # internal_avg_params =
+    # min_params =
     # max_params =
 
     def __repr__(self):
