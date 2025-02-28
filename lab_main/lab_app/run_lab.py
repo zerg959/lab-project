@@ -3,6 +3,7 @@ import os
 import logging
 from lab_db import init_app, lab_db
 from flask_sqlalchemy import SQLAlchemy
+from models import User, Base
 
 app = Flask(__name__)
 
@@ -21,5 +22,5 @@ def home():
 
 
 if __name__ == "__main__":
-    # init_app(app)  # DB Init
-    app.run(debug=True)
+    with app.app_context():  # init_app(app)  # DB Init
+        Base.metadata.create_all(lab_db.engine)

@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
-
+from models import Base
 
 lab_db = SQLAlchemy()
 
@@ -10,9 +10,9 @@ def init_app(app):
     Initialize SQLite DB.
     """
     lab_db.init_app(app)
-    with app.app_context():
-        lab_db.create_all()
-        current_app.logger.info('Database initialized and tables created.')
+    # with app.app_context():
+    #     lab_db.create_all()
+    #     current_app.logger.info('Database initialized and tables created.')
 
 
 def reset_db(app):
@@ -21,5 +21,5 @@ def reset_db(app):
     """
     with app.app_context():
         lab_db.drop_all()
-        lab_db.create_all()
+        Base.metadata.create_all(lab_db.engine)
         current_app.logger.info('Database reset.')
