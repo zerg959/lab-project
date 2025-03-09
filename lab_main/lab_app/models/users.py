@@ -1,5 +1,6 @@
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Column, Integer, String, CheckConstraint
+from typing import List
 from .base import Base
 from .associations import association_table
 
@@ -12,22 +13,26 @@ USER_ROLE_ADMIN = "admin"
 
 class User(Base):
     """
-    User model for DB-table 'users':
+    Represents a user in the system.
+
+    Attributes:
+        id (int): Unique identifier for the user.
+        name (str): User's name. Must not be null.
+        email (str): User's email address. Must be unique and not null.
+        Indexed for faster lookups.
+        role (str): User's role, which determines their permissions.
+        Allowed values: :data:`USER_ROLE_USER` or :data:`USER_ROLE_ADMIN`.
+        Enforced by a CHECK constraint in the database.
+        Default is :data:`USER_ROLE_USER`.
+        storages (List[:class:`Storage`]):
+        List of storages the user has access to.
+        The relationship is many-to-many via the `association_table`.
     """
 
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, nullable=False)
-    """
-    Unique primary key user-ID, integer.
-    """
     name = Column(String, nullable=False)
-    """
-    User name: non-unique, string.
-    """
     email = Column(String, nullable=False, unique=True, index=True)
-    """
-    Email: unique, string, email format.
-    """
     role = Column(
         String,
         CheckConstraint(
@@ -37,29 +42,30 @@ class User(Base):
         nullable=False,
         default=USER_ROLE_USER,
     )
-    """
-    role (list): User role.
-    Only ('user', 'admin') roles names are allowed.
-    """
     storages = relationship(
         "Storage", secondary=association_table, back_populates="users"
     )
-    """
-    storages (list): List of storages user can manage.
-    """
 
     def __repr__(self):
-        return f"User {self.id}: {self.name}"
+        return f"User id={self.id}: {self.name}"
 
     @validates("role")
-    def role_validtion(self, key, value):
+    def role_validation(self, key, value):
         """
-        Validation role value function.
-        Checks if the role in allowed values.
-        :param key: field name (always 'role).
-        :param value: field value.
-        :raises ValueError: If value not allowed.
-        :return: Role value.
+        Validates the user's role.
+
+        Ensures that the role is one of the allowed values
+        (:data:`USER_ROLE_USER` or :data:`USER_ROLE_ADMIN`).
+
+        Args:
+            key (str): The attribute being validated (always 'role').
+            value (str): The proposed value for the role.
+
+        Returns:
+            str: The validated role value.
+
+        Raises:
+            ValueError: If the provided `value` is not a valid role.
         """
         if value is None:
             value = USER_ROLE_USER
