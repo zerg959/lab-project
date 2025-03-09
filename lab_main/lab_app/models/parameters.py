@@ -37,4 +37,4 @@ class Parameter(Base):
     # default=datetime.datetime.now(timezone.utc)) # Date and time
 
     def __repr__(self):
-        return f"Parameter: {self.id}, description: {self.description}"
+        return f"Parameter id={self.id}, description: {self.description}"
