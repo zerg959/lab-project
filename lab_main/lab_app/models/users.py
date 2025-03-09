@@ -24,7 +24,7 @@ class User(Base):
         Allowed values: :data:`USER_ROLE_USER` or :data:`USER_ROLE_ADMIN`.
         Enforced by a CHECK constraint in the database.
         Default is :data:`USER_ROLE_USER`.
-        storages (List[:class:`Storage`]):
+        storages (List):
         List of storages the user has access to.
         The relationship is many-to-many via the `association_table`.
     """
@@ -42,7 +42,7 @@ class User(Base):
         nullable=False,
         default=USER_ROLE_USER,
     )
-    storages: relationship["Storage"] = relationship(
+    storages: relationship[List]= relationship(
         "Storage", secondary=association_table, back_populates="users"
     )
 
