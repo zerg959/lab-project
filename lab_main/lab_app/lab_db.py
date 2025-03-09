@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import current_app
-from models import Base
+from core.models import Base
 
 lab_db = SQLAlchemy()
 
@@ -20,6 +20,5 @@ def reset_db(app):
     Drop DB (delete all tables and recreate new).
     """
     with app.app_context():
-        lab_db.drop_all()
-        Base.metadata.create_all(lab_db.engine)
-        current_app.logger.info('Database reset.')
+        lab_db.drop_all()  # lab_db, а не Base
+        print("Database reset call in")

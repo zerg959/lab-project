@@ -3,6 +3,8 @@ from sqlalchemy import Column, Integer, String, CheckConstraint
 from typing import List, Optional
 from .base import Base
 from .associations import association_table
+from lab_db import lab_db
+from flask_login import UserMixin
 
 
 USER_ROLE_USER = "user"
@@ -11,7 +13,7 @@ USER_ROLE_ADMIN = "admin"
 """Constant for admin role"""
 
 
-class User(Base):
+class User(UserMixin, Base):
     """
     Represents a user in the system.
 
@@ -49,6 +51,9 @@ class User(Base):
     storages = relationship(
         "Storage", secondary=association_table, back_populates="users"
     )
+
+    def get_id(self):
+        return str(self.id)
 
     def __repr__(self):
         return f"User id={self.id}: {self.name}"
