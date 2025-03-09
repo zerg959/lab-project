@@ -25,10 +25,10 @@ class Parameter(Base):
 
     __tablename__ = "parameters"
 
-    id = Column(Integer, primary_key=True)
-    parameter_name = Column(String, nullable=True)
-    parameter_unit = Column(String, nullable=True)
-    description = Column(String, default="parameter")
+    id: Column[int] = Column(Integer, primary_key=True)
+    parameter_name: Column[str] = Column(String, nullable=True)
+    parameter_unit: Column[str] = Column(String, nullable=True)
+    description: Column[str] = Column(String, default="parameter")
     sensors = relationship(
         "Sensor",
         back_populates="parameter",

@@ -9,6 +9,8 @@ from sqlalchemy import (
     Float,
     Time,
 )
+from datetime import time
+from typing import Optional
 from .base import Base
 
 DEVICE_TYPE_SENSOR = "sensor"
@@ -46,13 +48,13 @@ class Device(Base):
 
     __tablename__ = "devices"
 
-    id = Column(Integer, primary_key=True)
-    description = Column(String, default="Device")
-    is_outdoor = Column(Boolean, default=False, nullable=False)
-    is_active = Column(Boolean, default=False, nullable=False)
-    is_auto_mode_on = Column(Boolean, default=False, nullable=False)
+    id: Column[int] = Column(Integer, primary_key=True)
+    description: Column[str] = Column(String, default="Device")
+    is_outdoor: Column[bool] = Column(Boolean, default=False, nullable=False)
+    is_active: Column[bool] = Column(Boolean, default=False, nullable=False)
+    is_auto_mode_on: Column[bool] = Column(Boolean, default=False, nullable=False)
     auto_start_time = Column(Time, nullable=True)
-    device_type = Column(
+    device_type: Column[str] = Column(
         String,
         CheckConstraint(
             f'device_type IN ("{DEVICE_TYPE_SENSOR}",\
@@ -106,8 +108,8 @@ class Sensor(Device):
         "polymorphic_identity": DEVICE_TYPE_SENSOR,
     }
 
-    current_sensor_param = Column(Float, nullable=True)
-    parameter_id = Column(Integer, ForeignKey("parameters.id"), nullable=True)
+    current_sensor_param: Column[float] = Column(Float, nullable=True)
+    parameter_id: Column[int] = Column(Integer, ForeignKey("parameters.id"), nullable=True)
     parameter = relationship(
         "Parameter",
         back_populates="sensors",

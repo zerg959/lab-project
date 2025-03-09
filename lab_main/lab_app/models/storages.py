@@ -29,8 +29,8 @@ class Storage(Base):
           List of zones contained within this storage area.
       """
     __tablename__ = "storages"
-    id = Column(Integer, primary_key=True, nullable=False)
-    description = Column(String, nullable=True)
+    id: Column[int] = Column(Integer, primary_key=True, nullable=False)
+    description: Column[str] = Column(String, nullable=True)
     users = relationship("User",
                         secondary=association_table,
                         back_populates="storages"

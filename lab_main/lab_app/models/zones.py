@@ -24,14 +24,15 @@ class Zone(Base):
     """
 
     __tablename__ = "zones"
-    id = Column(Integer, primary_key=True)
-    storage_id = Column(Integer,
-                        ForeignKey("storages.id"),
-                        nullable=True, index=True
-                        )
+    id: Column[int] = Column(Integer, primary_key=True)
+    storage_id: Column[int] = Column(
+        Integer,
+        ForeignKey("storages.id"),
+        nullable=True, index=True
+        )
     storage = relationship("Storage", back_populates="zones")
     devices = relationship("Device", back_populates="zone")
-    description = Column(String, default="zone")
+    description: Column[str] = Column(String, default="zone")
     # internal_cur_params =
     # internal_avg_params =
     # external_cur_params =
