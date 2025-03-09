@@ -1,6 +1,6 @@
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Column, Integer, String, CheckConstraint
-from typing import List
+from typing import List, Optional
 from .base import Base
 from .associations import association_table
 
@@ -30,10 +30,10 @@ class User(Base):
     """
 
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, nullable=False)
-    name = Column(String, nullable=False)
-    email = Column(String, nullable=False, unique=True, index=True)
-    role = Column(
+    id: Column[int] = Column(Integer, primary_key=True, nullable=False)
+    name: Column[str] = Column(String, nullable=False)
+    email: Column[str] = Column(String, nullable=False, unique=True, index=True)
+    role: Column[str] = Column(
         String,
         CheckConstraint(
             f'role IN \
@@ -42,7 +42,7 @@ class User(Base):
         nullable=False,
         default=USER_ROLE_USER,
     )
-    storages = relationship(
+    storages: relationship["Storage"] = relationship(
         "Storage", secondary=association_table, back_populates="users"
     )
 
@@ -50,7 +50,7 @@ class User(Base):
         return f"User id={self.id}: {self.name}"
 
     @validates("role")
-    def role_validation(self, key, value):
+    def role_validation(self, key: str, value: str) -> str:
         """
         Validates the user's role.
 
