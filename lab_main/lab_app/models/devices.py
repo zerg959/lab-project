@@ -19,38 +19,46 @@ class Device(Base):
     """
     Parent Device model for Sensor and Regulator models.
     to create Devices of different types: Sensors, Regulators etc.
+
+    Attributes:
+        id (int): Unique device-ID.
+        description (str): Device description. Default="device"
+        (f.ex.: "humidity sensor').
+        is_outdoor (bool): Device location flag - (indoor/outdoor).
+        Default value = False.
+        is_active (bool): Device status (on/off). Default value = "False".
+        is_auto_mode_on (bool): Device mode (on/off), to set
+        automatic mode. Default value= False.
+        auto_start_time (time): Device's start time.
+        device_type (str): Type of the Device (for ex.: sensor, regulator).
+        Allowed values: опустимые значения: DEVICE_TYPE_SENSOR,
+        DEVICE_TYPE_REGULATOR.
+        zone_id: Inherited attribute only in
+        sibling-models (Regulator, Sensor).
+        Link Device model siblings with Zone by zone.id.
+        zone (Zone): Linked Zone object.
+
+    Note:
+        Device model is the Parent model for Sensor and Regulator models.
+        Device_type values are limited by CHECK constraint.
+        Zone_id is available only in sibling-models (Senso/Regulator).
+
+    Example:
+        >>> sensor1 = Device(
+        ...     description="Temperature sensor",
+        ...     is_outdoor=True,
+        ...     device_type=DEVICE_TYPE_SENSOR
+        ... )
     """
 
     __tablename__ = "devices"
 
     id = Column(Integer, primary_key=True)
-    """
-    id (plymorphic id from children class):
-    unique id of the device-type object.
-    """
-
     description = Column(String, default="Device")
-    """
-    description (str): Device description. Default="device".
-    """
     is_outdoor = Column(Boolean, default=False, nullable=False)
-    """
-    is_outdoor (bool): Device location flag - (indoor/outdoor).
-    Default value = "False"
-    """
     is_active = Column(Boolean, default=False, nullable=False)
-    """
-    is_active (bool): Device status (on/off). Default value = "False".
-    """
     is_auto_mode_on = Column(Boolean, default=False, nullable=False)
-    """
-    auto_mode (bool): Device mode (on/off), to set
-    automatic mode. Default value= "False".
-    """
     auto_start_time = Column(Time, nullable=True)
-    """
-    auto_start_time (time): Devicec start time
-    """
     device_type = Column(
         String,
         CheckConstraint(
@@ -59,27 +67,14 @@ class Device(Base):
         ),
         nullable=True,
     )
-    """
-    device_type (str): Type of the Device (for ex.: sensor, regulator).
-    Default value = DEVICE_TYPE_SENSOR.
-    """
 
     @declared_attr
     def zone_id(cls):
         return Column(Integer, ForeignKey("zones.id"), nullable=True)
 
-    """
-    zone_id: Inheritated atribute only in sibling-models (Regulator, Sensor).
-    Link Device model siblings with Zone by zone.id.
-    """
-
     @declared_attr
     def zone(cls):
         return relationship("Zone", back_populates="devices")
-
-    """
-    zone (obj): Linked Zone object.
-    """
 
     def __repr__(self):
         return f"<{self.__class__.__name__} id={self.id}>"
