@@ -18,7 +18,8 @@ DEVICE_TYPE_REGULATOR = "regulator"
 class Device(Base):
     """
     Parent Device model for Sensor and Regulator models.
-    to create Devices of different types: Sensors, Regulators etc.
+    This class serves as a base for creating different
+    types of devices, such as Sensors and Regulators.
 
     Attributes:
         id (int): Unique device-ID.
@@ -26,29 +27,21 @@ class Device(Base):
         (f.ex.: "humidity sensor').
         is_outdoor (bool): Device location flag - (indoor/outdoor).
         Default value = False.
-        is_active (bool): Device status (on/off). Default value = "False".
-        is_auto_mode_on (bool): Device mode (on/off), to set
-        automatic mode. Default value= False.
-        auto_start_time (time): Device's start time.
+        is_active (bool): Device status (on/off). Default value = False.
+        is_auto_mode_on (bool): Device mode (on/off), enabling automatic
+            operation. Default value= False.
+        auto_start_time (Optional[datetime.time]): Device's start time,
+        or None if not set.
         device_type (str): Type of the Device (for ex.: sensor, regulator).
-        Allowed values: опустимые значения: DEVICE_TYPE_SENSOR,
-        DEVICE_TYPE_REGULATOR.
-        zone_id: Inherited attribute only in
-        sibling-models (Regulator, Sensor).
-        Link Device model siblings with Zone by zone.id.
-        zone (Zone): Linked Zone object.
-
-    Note:
-        Device model is the Parent model for Sensor and Regulator models.
-        Device_type values are limited by CHECK constraint.
-        Zone_id is available only in sibling-models (Senso/Regulator).
-
-    Example:
-        >>> sensor1 = Device(
-        ...     description="Temperature sensor",
-        ...     is_outdoor=True,
-        ...     device_type=DEVICE_TYPE_SENSOR
-        ... )
+        Limited by a CHECK constraint in the database.
+        Default: :data:`DEVICE_TYPE_SENSOR`.
+        Allowed values: :data:`DEVICE_TYPE_SENSOR`,
+        :data:`DEVICE_TYPE_REGULATOR`.
+        zone_id (Optional[int]):  *Sensor/Regulator only.* ForeignKey
+            referencing :class:`Zone`.id. Connects the device
+            to a specific zone.
+        zone (Optional[Zone]): *Sensor/Regulator only.* Relationship to the
+            :class:`Zone` object. Allows access to the associated zone.
     """
 
     __tablename__ = "devices"
@@ -65,15 +58,24 @@ class Device(Base):
             f'device_type IN ("{DEVICE_TYPE_SENSOR}",\
                                          "{DEVICE_TYPE_REGULATOR}")'
         ),
-        nullable=True,
+        default=DEVICE_TYPE_SENSOR,
+        nullable=False,
     )
 
     @declared_attr
     def zone_id(cls):
+        """
+        (Sensor/Regulator only) ForeignKey referencing the Zone.id.
+        Connects the device to a specific Zone.
+        """
         return Column(Integer, ForeignKey("zones.id"), nullable=True)
 
     @declared_attr
     def zone(cls):
+        """
+        (Sensor/Regulator only) Relationship to the Zone object.
+        Allows access to the associated Zone.
+        """
         return relationship("Zone", back_populates="devices")
 
     def __repr__(self):
