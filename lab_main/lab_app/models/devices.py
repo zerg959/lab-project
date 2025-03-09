@@ -22,25 +22,25 @@ class Device(Base):
     types of devices, such as Sensors and Regulators.
 
     Attributes:
-        id (int): Unique device-ID.
-        description (str): Device description. Default="device"
+      - id (int): Unique device-ID.
+      - description (str): Device description. Default="device"
         (f.ex.: "humidity sensor').
-        is_outdoor (bool): Device location flag - (indoor/outdoor).
+      - is_outdoor (bool): Device location flag - (indoor/outdoor).
         Default value = False.
-        is_active (bool): Device status (on/off). Default value = False.
-        is_auto_mode_on (bool): Device mode (on/off), enabling automatic
+      - is_active (bool): Device status (on/off). Default value = False.
+      - is_auto_mode_on (bool): Device mode (on/off), enabling automatic
             operation. Default value= False.
-        auto_start_time (Optional[datetime.time]): Device's start time,
+      - auto_start_time (Optional[datetime.time]): Device's start time,
         or None if not set.
-        device_type (str): Type of the Device (for ex.: sensor, regulator).
+      - device_type (str): Type of the Device (for ex.: sensor, regulator).
         Limited by a CHECK constraint in the database.
         Default: :data:`DEVICE_TYPE_SENSOR`.
         Allowed values: :data:`DEVICE_TYPE_SENSOR`,
         :data:`DEVICE_TYPE_REGULATOR`.
-        zone_id (Optional[int]):  *Sensor/Regulator only.* ForeignKey
+      - zone_id (Optional[int]):  *Sensor/Regulator only.* ForeignKey
             referencing :class:`Zone`.id. Connects the device
             to a specific zone.
-        zone (Optional[Zone]): *Sensor/Regulator only.* Relationship to the
+      - zone (Optional[Zone]): *Sensor/Regulator only.* Relationship to the
             :class:`Zone` object. Allows access to the associated zone.
     """
 

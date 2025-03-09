@@ -16,15 +16,15 @@ class User(Base):
     Represents a user in the system.
 
     Attributes:
-        id (int): Unique identifier for the user.
-        name (str): User's name. Must not be null.
-        email (str): User's email address. Must be unique and not null.
+      - id (int): Unique identifier for the user.
+      - name (str): User's name. Must not be null.
+      - email (str): User's email address. Must be unique and not null.
         Indexed for faster lookups.
-        role (str): User's role, which determines their permissions.
+      - role (str): User's role, which determines their permissions.
         Allowed values: :data:`USER_ROLE_USER` or :data:`USER_ROLE_ADMIN`.
         Enforced by a CHECK constraint in the database.
         Default is :data:`USER_ROLE_USER`.
-        storages (List):
+      - storages (List):
         List of storages the user has access to.
         The relationship is many-to-many via the `association_table`.
     """
@@ -32,7 +32,11 @@ class User(Base):
     __tablename__ = "users"
     id: Column[int] = Column(Integer, primary_key=True, nullable=False)
     name: Column[str] = Column(String, nullable=False)
-    email: Column[str] = Column(String, nullable=False, unique=True, index=True)
+    email: Column[str] = Column(
+        String,
+        nullable=False,
+        unique=True,
+        index=True)
     role: Column[str] = Column(
         String,
         CheckConstraint(
@@ -42,7 +46,7 @@ class User(Base):
         nullable=False,
         default=USER_ROLE_USER,
     )
-    storages: relationship[List]= relationship(
+    storages = relationship(
         "Storage", secondary=association_table, back_populates="users"
     )
 

@@ -18,14 +18,14 @@ class Storage(Base):
       Multiple users can be authorized to manage a storage area.
 
       Attributes:
-          id (int):
+        - id (int):
           Unique identifier for the storage area.
-          description (Optional[str]):
+        - description (Optional[str]):
           Description of the storage area.
-          users (List[:class:`User`]):
+        - users (List[:class:`User`]):
           List of users who have access to manage this storage area.
           The relationship is many-to-many via the `association_table`.
-          zones (List[:class:`Zone`]):
+        - zones (List[:class:`Zone`]):
           List of zones contained within this storage area.
       """
     __tablename__ = "storages"

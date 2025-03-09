@@ -13,14 +13,14 @@ class Zone(Base):
     environmental conditions.
 
     Attributes:
-        id (int): Unique identifier for the zone.
-        storage_id (Optional[int]): ForeignKey referencing the
+      - id (int): Unique identifier for the zone.
+      - storage_id (Optional[int]): ForeignKey referencing the
             :class:`Storage` object this zone belongs to.
         storage (:class:`Storage`): Relationship to the :class:`Storage`
             object this zone belongs to.
-        devices (List[:class:`Device`]): List of devices (sensors and
+      - devices (List[:class:`Device`]): List of devices (sensors and
             regulators) associated with this zone.
-        description (str): Description of the zone. Defaults to "zone".
+      - description (str): Description of the zone. Defaults to "zone".
     """
 
     __tablename__ = "zones"
