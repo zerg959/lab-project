@@ -84,9 +84,22 @@ class Device(Base):
 
 class Sensor(Device):
     """
-    Sensor class.
-    Sibling of the Device class.
-    Use for parameters control: co2-, t-, humidity- sensors.
+    Represents a Sensor device, inheriting from the :class:`Device` model.
+
+    This class is used to represent sensors that monitor various parameters
+    like CO2 levels, temperature, and humidity.
+    It's a sibling class to other device types like :class:`Regulator`.
+
+    Attributes:
+        current_sensor_param (Optional[float]):
+        The current value of the parameter being measured by the sensor.
+        Can be None if no reading is available.
+        parameter_id (Optional[int]):
+        ForeignKey referencing the :class:`Parameter` object associated
+        with this sensor.
+        parameter (:class:`Parameter`):
+        Relationship to the associated :class:`Parameter` object.
+        Provides access to the parameter's details.
     """
 
     __mapper_args__ = {
@@ -94,30 +107,22 @@ class Sensor(Device):
     }
 
     current_sensor_param = Column(Float, nullable=True)
-    """
-    current_sensor_param: current value of param (default="N/A")
-    """
     parameter_id = Column(Integer, ForeignKey("parameters.id"), nullable=True)
-    """
-    parameter_id: ID of the Parameter object linked with current Sensor object.
-    """
     parameter = relationship(
         "Parameter",
         back_populates="sensors",
     )
-    """
-    parameter: Backref for linked Parameter.
-    """
 
     def __repr__(self):
-        return f"Parameter {self.id} : {self.description}>"
+        return f"Sensor id={self.id} : {self.description}>"
 
 
 class Regulator(Device):
     """
-    Regulator class.
-    Sibling of the Device class.
-    Use for parameter managing: co2-, t-, humidity- sensors.
+    Represents a Regulator device, inheriting from the :class:`Device` model.
+    This class is used to represent regulators that manage various parameters
+    like CO2 levels, temperature, and humidity.
+    It's a sibling class to other device types like :class:`Sensor`.
     """
 
     __mapper_args__ = {
@@ -125,4 +130,4 @@ class Regulator(Device):
     }
 
     def __repr__(self):
-        return f"Regulator {self.id}: {self.description}"
+        return f"Regulator id={self.id}: {self.description}"
