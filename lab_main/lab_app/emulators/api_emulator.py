@@ -6,6 +6,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 '''
 test requests:
+ksdjfbasjdbvaskdjvbaskdjvb.asdv
 curl -X POST http://localhost:8001/sensor_data \
 -H "Content-Type: application/json" \
 -d '{"temperature": 25.5, "humidity": 60, "co2": 450}'
