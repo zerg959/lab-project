@@ -1,30 +1,46 @@
-black
 Flask
 SQLAlchemy
+Pydantic
+python-dotenv
+Flask-RESTful
+
+# --- Development & Testing ---
 pytest
 pytest-cov
 pytest-clarity
-python-dotenv
-flake8
-faker
-requests
-Flask-Login
-marshmallow
-marshmallow-sqlalchemy
-werkzeug
-pdoc3
-# sphinx
-# sphinx-rtd-theme
-Flask-Migrate
-alembic
 pytest-mock
-# Flask-Cors
-passlib
+Faker
+Flake8
+Black  # For code formatting
+
+# --- Authentication & Security ---
+Flask-Login
+Werkzeug  # (Dependency of Flask, but good to have explicitly)
 itsdangerous
-# beautifulsoup4
-# bootstrap-icons
-pip-tools
-# for postgresql needs:
-# postgresql
+Passlib
+
+# --- Database Migrations ---
+Flask-Migrate
+Alembic
+
+# --- Documentation ---
+pdoc3
+Requests  # For making HTTP requests (e.g., to your API)
+
+# --- Optional, depending on your needs ---
+# Flask-Cors  # Enable if you need CORS support
+# psycopg2-binary # If you use PostgreSQL (production) or psycopg2 (development)
+
+# --- For documentation themes (if you move to Sphinx later) ---
+# Sphinx
+# sphinx-rtd-theme
+
+# --- REMOVED ---
+# marshmallow
+# marshmallow-sqlalchemy
+# beautifulsoup4 # (If you end up doing more complex scraping/parsing)
+# bootstrap-icons # (If you end up using Bootstrap)
+# postgresql  # If you're deploying to an actual PostgreSQL server.
 # postgresql-contrib
-# psycopg2-binary 
+# pip-tools
+# HELLO EVERYBODY
